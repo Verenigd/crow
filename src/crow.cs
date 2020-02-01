@@ -2,10 +2,10 @@ using System;
 using System.IO;
 
 /*
-Errors are displayed as "':ERROR MESSAGE"
-    ':ERR_NOT_FOUND
-    ':ERR_LIST_NULL
-    ':ERR_CONTAINER
+Errors are displayed as
+    :ERR_NOT_FOUND:
+    :ERR_LIST_NULL:
+    :ERR_CONTAINER:
 */
 
 public class crow : IDisposable {
@@ -15,6 +15,11 @@ public class crow : IDisposable {
     const string DelimContent = ":";
     const string DelimStruct = "'";
     const string DelimPath = ".";
+
+    const string ErrNotFound = DelimContent + "ERR_NOT_FOUND" + DelimContent;
+    const string ErrListNull = DelimContent + "ERR_LIST_NULL" + DelimContent; //Set as warning?
+    const string ErrContainer = DelimContent + "ERR_CONTAINER" + DelimContent;
+
     static string Filepath = "";
     static string[] Contents = new string[0];
 
@@ -61,7 +66,7 @@ public class crow : IDisposable {
     }
 
     public string Find(string EntryAttr) {
-        string rVal = DelimStruct + DelimContent + "ERR_NOT_FOUND";
+        string rVal = ErrNotFound;
         string CurrPath = "";
         bool PathReset = false;
         byte CurrItem = 0; //0-Null | 1-Start | 2-Item | 3-End | 4-Item | 5-Container
@@ -97,13 +102,13 @@ public class crow : IDisposable {
                 } else if(CurrItem == 2) {
                     rVal = rVal + Contents[n].Trim() + DelimContent;
                 } else if(CurrItem == 3) {
-                    rVal = rVal == "" ? rVal = DelimStruct + DelimContent + "ERR_LIST_NULL" : fLeft(rVal, rVal.Length-1);
+                    rVal = rVal == "" ? rVal = ErrListNull : fLeft(rVal, rVal.Length-1);
                     break;
                 } else if(CurrItem == 4) {
                     rVal = fGetEntryVal(Contents[n]);
                     break;
                 } else if(CurrItem == 5) {
-                    rVal = DelimStruct + DelimContent + "ERR_CONTAINER";
+                    rVal = DelimStruct;
                     break;
                 }
             }
