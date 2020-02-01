@@ -1,0 +1,53 @@
+<ISO>AT</ISO>
+<Capital>Wien</Capital>
+<Geography>
+    <Continent>Europe</Continent>
+    <Landlocked>false</Landlocked>
+</Geography>
+<Subdivision>
+    <1>
+        <Name>Burgenland</Name>
+        <Type>Länder</Type>
+        <Capital>Eisenstadt</Capital>
+    </1>
+    <2>
+        <Name>Kärnten</Name>
+        <Type>Länder</Type>
+        <Capital>Klagenfurt</Capital>
+    </2>
+    <3>
+        <Name>Niederösterreich</Name>
+        <Type>Länder</Type>
+        <Capital>Sank Pölten</Capital>
+    </3>
+    <4>
+        <Name>Oberösterreich</Name>
+        <Type>Länder</Type>
+        <Capital>Linz</Capital>
+    </4>
+    <5>
+        <Name>Salzburg</Name>
+        <Type>Länder</Type>
+        <Capital>Salzburg</Capital>
+    </5>
+    <6>
+        <Name>Steiermark</Name>
+        <Type>Länder</Type>
+        <Capital>Graz</Capital>
+    </6>
+    <7>
+        <Name>Tirol</Name>
+        <Type>Länder</Type>
+        <Capital>Innsburck</Capital>
+    </7>
+    <8>
+        <Name>Vorarlberg</Name>
+        <Type>Länder</Type>
+        <Capital>Bregenz</Capital>
+    </8>
+    <9>
+        <Name>Wien</Name>
+        <Type>Länder</Type>
+        <Capital>Wien</Capital>
+    </9>
+</Subdivision>

@@ -2,7 +2,7 @@
 Capital: Wien
 Geography:
     Continent: Europe
-    Landlocked: true
+    Landlocked: false
 :
 Subdivision:
     1:

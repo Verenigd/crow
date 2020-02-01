@@ -6,7 +6,7 @@ static class test {
             if(args[0] == "f") {
                 Console.WriteLine(f.Find(args[1]));
             } else if(args[0] == "ue") {
-                f.EntryUpd(args[1],args[2]);
+                f.Update(args[1],args[2]);
             }
         }
     }

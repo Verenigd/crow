@@ -4,13 +4,15 @@ using System.IO;
 /*
 TODO
 Add lists?
-Find                DONE
+Find
+    Initial         DONE
     Move back path  DONE
 Update
-Enter
+    Initial         DONE
+Add
 Delete
-    Entry       
-    Container   
+    Entry
+    Container
 */
 
 public class crow : IDisposable {
@@ -65,10 +67,6 @@ public class crow : IDisposable {
         return fRight(s, s.Length-s.IndexOf(DelimContent)-1).Trim();
     }
 
-    private static string fUpdateVal(string Content, string NewVal) {
-        return fLeft(Content, 1+Content.IndexOf(DelimContent)) + " " + NewVal;
-    }
-
     public string Find(string EntryAttr) {
         string rVal = ErrNotFound;
         string CurrPath = "";
@@ -83,11 +81,9 @@ public class crow : IDisposable {
                 //reserved for debuging
             } else if(Contents[n].Trim().ToString() == DelimContent) {
                 PathReset = true;
-                Console.WriteLine(CurrPath);
             } else if(Contents[n].IndexOf(DelimContent) > 0 && Contents[n].Trim().Length == Contents[n].Trim().IndexOf(DelimContent) + 1) {
                 PathReset = false;
                 CurrPath = CurrPath + DelimPath + fGetEntryAttr(Contents[n]);
-                Console.WriteLine(CurrPath);
             } else if(Contents[n].IndexOf(DelimContent) > 0 && Contents[n].Trim().Length > Contents[n].Trim().IndexOf(DelimContent) - 1) {
                 PathReset = true;
                 CurrPath = CurrPath + DelimPath + fGetEntryAttr(Contents[n]);
@@ -102,7 +98,33 @@ public class crow : IDisposable {
     }
 
     
-    public void EntryUpd(string EntryAttr, string EntryVal) {
+    public void Update(string EntryAttr, string EntryVal) {
+        string CurrPath = "";
+        bool PathReset = false;
+
+        for(int n = 0; n < Contents.Length; n++) {
+            if(PathReset == true) {
+                CurrPath = fLeft(CurrPath, CurrPath.LastIndexOf(DelimPath));
+            }
+
+            if(false) {
+                //reserved for debuging
+            } else if(Contents[n].Trim().ToString() == DelimContent) {
+                PathReset = true;
+            } else if(Contents[n].IndexOf(DelimContent) > 0 && Contents[n].Trim().Length == Contents[n].Trim().IndexOf(DelimContent) + 1) {
+                PathReset = false;
+                CurrPath = CurrPath + DelimPath + fGetEntryAttr(Contents[n]);
+            } else if(Contents[n].IndexOf(DelimContent) > 0 && Contents[n].Trim().Length > Contents[n].Trim().IndexOf(DelimContent) - 1) {
+                PathReset = true;
+                CurrPath = CurrPath + DelimPath + fGetEntryAttr(Contents[n]);
+            }
+
+            if(CurrPath == DelimPath + EntryAttr) {
+                Contents[n] = fLeft(Contents[n].ToString(), 1+Contents[n].ToString().IndexOf(DelimContent)) + " " + EntryVal;
+                break;
+            }
+        }
+
         File.WriteAllLines(Filepath, Contents, System.Text.Encoding.UTF8);
     }
 }
