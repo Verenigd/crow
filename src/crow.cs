@@ -2,6 +2,17 @@ using System;
 using System.IO;
 
 /*
+TODO
+Add lists?
+Find            DONE
+Update
+Enter
+Delete
+    Entry       
+    Container   
+*/
+
+/*
 Errors are displayed as
     :ERR_NOT_FOUND:
     :ERR_LIST_NULL:
@@ -17,7 +28,7 @@ public class crow : IDisposable {
     const string DelimPath = ".";
 
     const string ErrNotFound = DelimContent + "ERR_NOT_FOUND" + DelimContent;
-    const string ErrListNull = DelimContent + "ERR_LIST_NULL" + DelimContent; //Set as warning?
+    //const string ErrListNull = DelimContent + "ERR_LIST_NULL" + DelimContent; //Lists removed
     const string ErrContainer = DelimContent + "ERR_CONTAINER" + DelimContent;
 
     static string Filepath = "";
@@ -76,6 +87,24 @@ public class crow : IDisposable {
                 CurrPath = fLeft(CurrPath, CurrPath.LastIndexOf(DelimPath));
             }
 
+            if(false) {
+                //reserved for debuging
+            } else if(Contents[n].IndexOf(DelimContent) > 0 && Contents[n].Trim().Length == Contents[n].Trim().IndexOf(DelimContent) + 1) {
+                PathReset = false;
+                //CurrItem = 5;
+                CurrPath = CurrPath + DelimPath + fGetEntryAttr(Contents[n]);
+            } else if(Contents[n].IndexOf(DelimContent) > 0 && Contents[n].Trim().Length > Contents[n].Trim().IndexOf(DelimContent) - 1) {
+                PathReset = true;
+                //CurrItem = 4;
+                CurrPath = CurrPath + DelimPath + fGetEntryAttr(Contents[n]);
+            }
+
+            if(CurrPath == DelimPath + EntryAttr) {
+                rVal = fGetEntryVal(Contents[n]);
+                break;
+            }
+
+            
             if(Contents[n].Trim() == DelimContent) { //List or container end
                 PathReset = true;
                 CurrItem = 3;
@@ -98,17 +127,17 @@ public class crow : IDisposable {
 
             if(CurrPath == DelimPath + EntryAttr) {
                 if(CurrItem == 1) {
-                    rVal = "";
-                } else if(CurrItem == 2) {
+                    rVal = ErrNotFound;
+                } /* else if(CurrItem == 2) {
                     rVal = rVal + Contents[n].Trim() + DelimContent;
                 } else if(CurrItem == 3) {
-                    rVal = rVal == "" ? rVal = ErrListNull : fLeft(rVal, rVal.Length-1);
+                    rVal = rVal == "" ? rVal = ErrContainer : fLeft(rVal, rVal.Length-1);
                     break;
-                } else if(CurrItem == 4) {
+                } */ else if(CurrItem == 4) {
                     rVal = fGetEntryVal(Contents[n]);
                     break;
                 } else if(CurrItem == 5) {
-                    rVal = DelimStruct;
+                    rVal = ErrContainer;
                     break;
                 }
             }
@@ -116,6 +145,7 @@ public class crow : IDisposable {
         return rVal;
     }
 
+    
     public void EntryUpd(string EntryAttr, string EntryVal) {
         string CurrPath = "";
         bool PathReset = false;
@@ -145,6 +175,7 @@ public class crow : IDisposable {
         File.WriteAllLines(Filepath, Contents, System.Text.Encoding.UTF8);
     }
 
+    /*
     public void EntryAdd(string EntryAttr, string EntryVal) {
         string CurrPath = "";
         bool PathReset = false;
@@ -172,5 +203,5 @@ public class crow : IDisposable {
             }
         }
         File.WriteAllLines(Filepath, Contents, System.Text.Encoding.UTF8);
-    }
+    }*/
 }
