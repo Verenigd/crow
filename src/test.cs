@@ -16,6 +16,11 @@ static class test {
                 f.Update(args[1],args[2]);
                 t.Stop();
                 Console.WriteLine(t.GetMilliseconds());
+            } else if(args[0] == "ae") {
+                t.Start();
+                f.AddEntry(args[1], args[2]);
+                t.Stop();
+                Console.WriteLine(t.GetMilliseconds());
             }
         }
     }
