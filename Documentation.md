@@ -1,5 +1,4 @@
 # Documentation
-
 ## File format
 
 ## Usage
