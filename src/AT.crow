@@ -2,8 +2,13 @@
 Capital: Wien
 Geography:
     LargestPeak: Alps
+    Climate:
+        Teriary: ET
+        Secondary: Dfc
+        Primary: Dfb
+    :
     Continent: Europe
-    Landlocked: false
+    Landlocked: true
 :
 Subdivision:
     1:

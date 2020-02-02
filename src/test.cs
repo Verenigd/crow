@@ -21,6 +21,11 @@ static class test {
                 f.AddEntry(args[1], args[2]);
                 t.Stop();
                 Console.WriteLine(t.GetMilliseconds());
+            } else if(args[0] == "ac") {
+                t.Start();
+                f.AddContainer(args[1]);
+                t.Stop();
+                Console.WriteLine(t.GetMilliseconds());
             }
         }
     }

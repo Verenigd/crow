@@ -10,8 +10,8 @@ Find
 Update
     Initial         DONE
 Add
-    Entry
-    Container
+    Entry           DONE
+    Container       DONE
 Delete
     Entry
     Container
@@ -20,6 +20,7 @@ Add lists?
 
 public class crow : IDisposable {
     private bool disposed = false;
+    public bool Indentation = true;
     private System.ComponentModel.Component comp = new System.ComponentModel.Component();
     
     const string DelimContent = ":";
@@ -74,7 +75,7 @@ public class crow : IDisposable {
     }
 
     private string fGetLastAttr(string s) {
-        return fRight(s, s.LastIndexOf(DelimPath)+2).Trim();
+        return fRight(s, s.Length - s.LastIndexOf(DelimPath)-1).Trim();
     }
 
     private static string fGetEntryVal(string s) {
@@ -136,10 +137,25 @@ public class crow : IDisposable {
         string AppendPath = fGetPriorPath(EntryAttr);
         string NewKey = fGetLastAttr(EntryAttr);
         int Position = -1;
-        int Indentation = (EntryAttr.Length - EntryAttr.Replace(".", "").Length);
         
         if((Position = fGetPath(AppendPath)) != -1) {
-            Contents.Insert(Position+1, String.Concat(System.Linq.Enumerable.Repeat(PathIndent, Indentation)) + NewKey + DelimContent + " " + EntryVal);
+            int IndentationLevel = (EntryAttr.Length - EntryAttr.Replace(".", "").Length);
+            string IntendationString = Indentation ? String.Concat(System.Linq.Enumerable.Repeat(PathIndent, IndentationLevel)) : "";
+            Contents.Insert(Position+1, IntendationString + NewKey + DelimContent + " " + EntryVal);
+            sWriteFile();
+        }
+    }
+
+    public void AddContainer(string EntryAttr) {
+        string AppendPath = fGetPriorPath(EntryAttr);
+        string NewKey = fGetLastAttr(EntryAttr);
+        int Position = -1;
+        
+        if((Position = fGetPath(AppendPath)) != -1) {
+            int IndentationLevel = (EntryAttr.Length - EntryAttr.Replace(".", "").Length);
+            string IntendationString = Indentation ? String.Concat(System.Linq.Enumerable.Repeat(PathIndent, IndentationLevel)) : "";
+            Contents.Insert(Position+1, IntendationString + NewKey + DelimContent);
+            Contents.Insert(Position+2, IntendationString + DelimContent);
             sWriteFile();
         }
     }
