@@ -13,9 +13,15 @@ Add
     Entry           DONE
     Container       DONE
 Delete
-    Entry
-    Container
-Add lists?
+    Entry           DONE
+    Container       DONE
+Add lists
+Indentations
+*/
+
+/*
+Bugs
+    Delete entry also deletes container start
 */
 
 public class crow : IDisposable {
@@ -112,6 +118,51 @@ public class crow : IDisposable {
         return rIndex;
     }
 
+    public int fContainerEnd(string EntryAttr) {
+        int rIndex = -1; //-1 As not found
+        string CurrPath = "";
+        bool PathReset = false;
+        int rInside = 0;
+        bool rStart = false;
+
+        for(int n = 0; n < Contents.Count; n++) {
+            if(PathReset == true) {
+                CurrPath = fLeft(CurrPath, CurrPath.LastIndexOf(DelimPath));
+            }
+
+            if(rStart == false) {
+                if(false) {
+                    //reserved for debuging
+                } else if(Contents[n].Trim().ToString() == DelimContent) {
+                    PathReset = true;
+                } else if(Contents[n].IndexOf(DelimContent) > 0 && Contents[n].Trim().Length == Contents[n].Trim().IndexOf(DelimContent) + 1) {
+                    PathReset = false;
+                    CurrPath = CurrPath + DelimPath + fGetEntryAttr(Contents[n]);
+                } else if(Contents[n].IndexOf(DelimContent) > 0 && Contents[n].Trim().Length > Contents[n].Trim().IndexOf(DelimContent) - 1) {
+                    PathReset = true;
+                    CurrPath = CurrPath + DelimPath + fGetEntryAttr(Contents[n]);
+                }
+            } else {
+                if(Contents[n].ToString().Trim() == DelimContent) {
+                    rInside -= 1;
+                } else if(Contents[n].IndexOf(DelimContent) > 0 && Contents[n].Trim().Length == Contents[n].Trim().IndexOf(DelimContent) + 1) {
+                    rInside += 1;
+                }
+            }
+
+            if(CurrPath == DelimPath + EntryAttr && rStart == false) {
+                rInside += 1;
+                rStart = true;
+            }
+
+            if(rStart == true && rInside == 0) {
+                rIndex = n;
+                break;
+            }
+        }
+        return rIndex;
+    }
+
     private void sWriteFile() {
         File.WriteAllLines(Filepath, Contents, System.Text.Encoding.UTF8);
     }
@@ -156,6 +207,25 @@ public class crow : IDisposable {
             string IntendationString = Indentation ? String.Concat(System.Linq.Enumerable.Repeat(PathIndent, IndentationLevel)) : "";
             Contents.Insert(Position+1, IntendationString + NewKey + DelimContent);
             Contents.Insert(Position+2, IntendationString + DelimContent);
+            sWriteFile();
+        }
+    }
+
+    public void DelEntry(string EntryAttr) {
+        int Position = -1;
+        
+        if((Position = fGetPath(EntryAttr)) != -1) {
+            Contents.RemoveAt(Position);
+            sWriteFile();
+        }
+    }
+
+    public void DelContainer(string EntryAttr) {
+        int PositionIni = -1;
+        int PositionEnd = -1;
+        
+        if((PositionIni = fGetPath(EntryAttr)) != -1 && (PositionEnd = fContainerEnd(EntryAttr)) != -1) {
+            Contents.RemoveRange(PositionIni, PositionEnd - PositionIni + 1);
             sWriteFile();
         }
     }

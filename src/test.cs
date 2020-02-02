@@ -26,6 +26,21 @@ static class test {
                 f.AddContainer(args[1]);
                 t.Stop();
                 Console.WriteLine(t.GetMilliseconds());
+            } else if(args[0] == "de") {
+                t.Start();
+                f.DelEntry(args[1]);
+                t.Stop();
+                Console.WriteLine(t.GetMilliseconds());
+            } else if(args[0] == "dc") {
+                t.Start();
+                f.DelContainer(args[1]);
+                t.Stop();
+                Console.WriteLine(t.GetMilliseconds());
+            } else if(args[0] == "t") {
+                //t.Start();
+                Console.WriteLine(f.fContainerEnd("Geography.Climate"));
+                //t.Stop();
+                //Console.WriteLine(t.GetMilliseconds());
             }
         }
     }

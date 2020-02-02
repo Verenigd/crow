@@ -1,12 +1,12 @@
 ﻿ISO: AT
 Capital: Wien
 Geography:
-    LargestPeak: Alps
     Climate:
-        Teriary: ET
-        Secondary: Dfc
-        Primary: Dfb
+        Primary: Dfc
+        Secondary: Dft
+        Tertiary: ET
     :
+    LargestPeak: Alps
     Continent: Europe
     Landlocked: true
 :
