@@ -1,6 +1,7 @@
 # Documentation
 ## File format
 The file works as such:
+
     - Entry keys and values are seprated by a `:`
     - Entries are separated by a new lines
 
@@ -21,7 +22,7 @@ Geography:
 
 ## Usage
 ```
-using(crow foo = new crow("*[filename]*.crow")) {
+using(crow foo = new crow("filename.crow")) {
 
 }
 ```

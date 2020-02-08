@@ -6,39 +6,39 @@ static class test {
             Chronos t = new Chronos();
             if(args[0] == "f") {
                 string s = "";
-                t.Start();
+                //t.Start();
                 s = f.Find(args[1]);
-                t.Stop();
+                //t.Stop();
                 Console.WriteLine("'" + s + "'");
-                Console.WriteLine(t.GetMilliseconds());
+                //Console.WriteLine(t.GetMilliseconds());
             } else if(args[0] == "ue") {
-                t.Start();
+                //t.Start();
                 f.Update(args[1],args[2]);
-                t.Stop();
-                Console.WriteLine(t.GetMilliseconds());
+                //t.Stop();
+                //Console.WriteLine(t.GetMilliseconds());
             } else if(args[0] == "ae") {
-                t.Start();
+                //t.Start();
                 f.AddEntry(args[1], args[2]);
-                t.Stop();
-                Console.WriteLine(t.GetMilliseconds());
+                //t.Stop();
+                //Console.WriteLine(t.GetMilliseconds());
             } else if(args[0] == "ac") {
-                t.Start();
+                //t.Start();
                 f.AddContainer(args[1]);
-                t.Stop();
-                Console.WriteLine(t.GetMilliseconds());
+                //t.Stop();
+                //Console.WriteLine(t.GetMilliseconds());
             } else if(args[0] == "de") {
-                t.Start();
+                //t.Start();
                 f.DelEntry(args[1]);
-                t.Stop();
-                Console.WriteLine(t.GetMilliseconds());
+                //t.Stop();
+                //Console.WriteLine(t.GetMilliseconds());
             } else if(args[0] == "dc") {
-                t.Start();
+                //t.Start();
                 f.DelContainer(args[1]);
-                t.Stop();
-                Console.WriteLine(t.GetMilliseconds());
+                //t.Stop();
+                //Console.WriteLine(t.GetMilliseconds());
             } else if(args[0] == "t") {
                 //t.Start();
-                Console.WriteLine(f.fContainerEnd("Geography.Climate"));
+                Console.WriteLine(f.TestingNew(args[1]));
                 //t.Stop();
                 //Console.WriteLine(t.GetMilliseconds());
             }

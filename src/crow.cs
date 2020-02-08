@@ -118,7 +118,7 @@ public class crow : IDisposable {
         return rIndex;
     }
 
-    public int fContainerEnd(string EntryAttr) {
+    public int fContainerEnd(string EntryPath) {
         int rIndex = -1; //-1 As not found
         string CurrPath = "";
         bool PathReset = false;
@@ -150,7 +150,7 @@ public class crow : IDisposable {
                 }
             }
 
-            if(CurrPath == DelimPath + EntryAttr && rStart == false) {
+            if(CurrPath == DelimPath + EntryPath && rStart == false) {
                 rInside += 1;
                 rStart = true;
             }
@@ -167,16 +167,16 @@ public class crow : IDisposable {
         File.WriteAllLines(Filepath, Contents, System.Text.Encoding.UTF8);
     }
 
-    public string Find(string EntryAttr) {
+    public string Find(string EntryPath) {
         string rVal = ErrNotFound;
-        int rIndex = fGetPath(EntryAttr);
+        int rIndex = fGetPath(EntryPath);
 
         rVal = rIndex == -1 ? ErrNotFound : fGetEntryVal(Contents[rIndex].ToString());
         return rVal;
     }
 
-    public void Update(string EntryAttr, string EntryVal) {
-        int rIndex = fGetPath(EntryAttr);
+    public void Update(string EntryPath, string EntryVal) {
+        int rIndex = fGetPath(EntryPath);
 
         if(rIndex != -1) {
             Contents[rIndex] = fLeft(Contents[rIndex].ToString(), 1+Contents[rIndex].ToString().IndexOf(DelimContent)) + " " + EntryVal;
@@ -184,26 +184,26 @@ public class crow : IDisposable {
         sWriteFile();
     }
 
-    public void AddEntry(string EntryAttr, string EntryVal) {
-        string AppendPath = fGetPriorPath(EntryAttr);
-        string NewKey = fGetLastAttr(EntryAttr);
+    public void AddEntry(string EntryPath, string EntryVal) {
+        string AppendPath = fGetPriorPath(EntryPath);
+        string NewKey = fGetLastAttr(EntryPath);
         int Position = -1;
         
         if((Position = fGetPath(AppendPath)) != -1) {
-            int IndentationLevel = (EntryAttr.Length - EntryAttr.Replace(".", "").Length);
+            int IndentationLevel = (EntryPath.Length - EntryPath.Replace(".", "").Length);
             string IntendationString = Indentation ? String.Concat(System.Linq.Enumerable.Repeat(PathIndent, IndentationLevel)) : "";
             Contents.Insert(Position+1, IntendationString + NewKey + DelimContent + " " + EntryVal);
             sWriteFile();
         }
     }
 
-    public void AddContainer(string EntryAttr) {
-        string AppendPath = fGetPriorPath(EntryAttr);
-        string NewKey = fGetLastAttr(EntryAttr);
+    public void AddContainer(string EntryPath) {
+        string AppendPath = fGetPriorPath(EntryPath);
+        string NewKey = fGetLastAttr(EntryPath);
         int Position = -1;
         
         if((Position = fGetPath(AppendPath)) != -1) {
-            int IndentationLevel = (EntryAttr.Length - EntryAttr.Replace(".", "").Length);
+            int IndentationLevel = (EntryPath.Length - EntryPath.Replace(".", "").Length);
             string IntendationString = Indentation ? String.Concat(System.Linq.Enumerable.Repeat(PathIndent, IndentationLevel)) : "";
             Contents.Insert(Position+1, IntendationString + NewKey + DelimContent);
             Contents.Insert(Position+2, IntendationString + DelimContent);
@@ -211,22 +211,28 @@ public class crow : IDisposable {
         }
     }
 
-    public void DelEntry(string EntryAttr) {
+    public void DelEntry(string EntryPath) {
         int Position = -1;
         
-        if((Position = fGetPath(EntryAttr)) != -1) {
-            Contents.RemoveAt(Position);
+        if((Position = fGetPath(EntryPath)) != -1) {
+            if(fGetEntryVal(Contents[Position].ToString().Trim()) != "") {
+                Contents.RemoveAt(Position);
+                sWriteFile();
+            }
+        }
+    }
+
+    public void DelContainer(string EntryPath) {
+        int PositionIni = -1;
+        int PositionEnd = -1;
+        
+        if((PositionIni = fGetPath(EntryPath)) != -1 && (PositionEnd = fContainerEnd(EntryPath)) != -1) {
+            Contents.RemoveRange(PositionIni, PositionEnd - PositionIni + 1);
             sWriteFile();
         }
     }
 
-    public void DelContainer(string EntryAttr) {
-        int PositionIni = -1;
-        int PositionEnd = -1;
-        
-        if((PositionIni = fGetPath(EntryAttr)) != -1 && (PositionEnd = fContainerEnd(EntryAttr)) != -1) {
-            Contents.RemoveRange(PositionIni, PositionEnd - PositionIni + 1);
-            sWriteFile();
-        }
+    public string TestingNew(string s) {
+        return fGetEntryVal(s);
     }
 }

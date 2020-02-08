@@ -2,8 +2,8 @@
 Capital: Wien
 Geography:
     Climate:
-        Primary: Dfc
-        Secondary: Dft
+        Primary: Dfe
+        Secondary: Dfc
         Tertiary: ET
     :
     LargestPeak: Alps
