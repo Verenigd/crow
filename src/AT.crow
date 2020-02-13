@@ -2,6 +2,7 @@
 Capital: Wien
 Geography:
     Climate:
+        Winter: Harsh
         Primary: Dfe
         Secondary: Dfc
         Tertiary: ET

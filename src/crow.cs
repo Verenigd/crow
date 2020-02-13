@@ -11,17 +11,19 @@ Update
     Initial         DONE
 Add
     Entry           DONE
+        Insert      DONE
+        Add
     Container       DONE
 Delete
     Entry           DONE
     Container       DONE
 Add lists
-Indentations
+Indentations        Meh...
 */
 
 /*
 Bugs
-    Delete entry also deletes container start
+    Delete entry also deletes container start   DONE
 */
 
 public class crow : IDisposable {
@@ -40,7 +42,6 @@ public class crow : IDisposable {
 
     static string Filepath = "";
     static List<string> Contents = new List<string>();
-    //static List<string> ContentList = new List<string>();
 
     public crow(string f) {
         Filepath = string.Format(@"{0}",f);
@@ -197,21 +198,15 @@ public class crow : IDisposable {
         }
     }
 
-    public void AddContainer(string EntryPath) {
-        string AppendPath = fGetPriorPath(EntryPath);
-        string NewKey = fGetLastAttr(EntryPath);
-        int Position = -1;
-        
-        if((Position = fGetPath(AppendPath)) != -1) {
-            int IndentationLevel = (EntryPath.Length - EntryPath.Replace(".", "").Length);
-            string IntendationString = Indentation ? String.Concat(System.Linq.Enumerable.Repeat(PathIndent, IndentationLevel)) : "";
-            Contents.Insert(Position+1, IntendationString + NewKey + DelimContent);
-            Contents.Insert(Position+2, IntendationString + DelimContent);
-            sWriteFile();
-        }
+    public void EntryStack() {
+
     }
 
-    public void DelEntry(string EntryPath) {
+    public void EntryInsert() {
+
+    }
+
+    public void EntryDel(string EntryPath) {
         int Position = -1;
         
         if((Position = fGetPath(EntryPath)) != -1) {
@@ -219,6 +214,20 @@ public class crow : IDisposable {
                 Contents.RemoveAt(Position);
                 sWriteFile();
             }
+        }
+    }
+
+    public void AddContainer(string EntryPath) {
+        string AppendPath = fGetPriorPath(EntryPath);
+        string NewKey = fGetLastAttr(EntryPath);
+        int Position = -1;
+        
+        if((Position = fGetPath(AppendPath)) != -1) {
+            int IndentationLevel = Indentation ? (EntryPath.Length - EntryPath.Replace(".", "").Length) : 0;
+            string IntendationString = Indentation ? String.Concat(System.Linq.Enumerable.Repeat(PathIndent, IndentationLevel)) : "";
+            Contents.Insert(Position+1, IntendationString + NewKey + DelimContent);
+            Contents.Insert(Position+2, IntendationString + DelimContent);
+            sWriteFile();
         }
     }
 

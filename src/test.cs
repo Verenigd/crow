@@ -4,6 +4,7 @@ static class test {
     static void Main(string[] args) {
         using(crow f = new crow("AT.crow")) {
             Chronos t = new Chronos();
+            f.Indentation = false;
             if(args[0] == "f") {
                 string s = "";
                 //t.Start();
@@ -28,7 +29,7 @@ static class test {
                 //Console.WriteLine(t.GetMilliseconds());
             } else if(args[0] == "de") {
                 //t.Start();
-                f.DelEntry(args[1]);
+                f.EntryDel(args[1]);
                 //t.Stop();
                 //Console.WriteLine(t.GetMilliseconds());
             } else if(args[0] == "dc") {
