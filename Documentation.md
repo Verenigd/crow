@@ -21,15 +21,28 @@ Geography:
 ```
 
 ## Usage
+A new object must be declared to interact with a crow file.
+
 ```
 using(crow foo = new crow("filename.crow")) {
-
+    _code goes here_
 }
 ```
 
 ### Find
-```
+This function will return the value associated with the 
 
+```
+using(crow foo = new crow("filename.crow")) {
+    string SearchVal = Find("Geography.LargestPeak");
+    //Output: 'Alps'
+
+    string SearchVal = Find("Geography.Climate.Quaternary");
+    //Output: ':ERR_NOT_FOUND:'
+
+    string SearchVal = Find("Geography.Climate");
+    //Output: ':ERR_CONTAINER:'
+}
 ```
 
 ### Update entry
@@ -37,7 +50,7 @@ using(crow foo = new crow("filename.crow")) {
 
 ```
 
-### Add entry
+### Add and insert entry
 ```
 
 ```
@@ -55,4 +68,18 @@ using(crow foo = new crow("filename.crow")) {
 ### Delete container
 ```
 
+```
+
+## Indentation
+Indentations are enabled by default with each indent being a quadruple space.
+
+```
+using(crow foo = new crow("filename.crow")) {
+    //Remove indentations
+    foo.IndentationType = false;
+
+    //Set indentations again and to double space instead of default
+    foo.IndentationType = true;
+    foo.IndentationString = "  ";
+}
 ```

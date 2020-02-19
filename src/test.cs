@@ -4,11 +4,13 @@ static class test {
     static void Main(string[] args) {
         using(crow f = new crow("AT.crow")) {
             Chronos t = new Chronos();
-            f.Indentation = false;
             if(args[0] == "f") {
                 string s = "";
                 //t.Start();
+                //try {
                 s = f.Find(args[1]);
+                //} catch {
+                //}
                 //t.Stop();
                 Console.WriteLine("'" + s + "'");
                 //Console.WriteLine(t.GetMilliseconds());

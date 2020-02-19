@@ -18,7 +18,12 @@ Delete
     Entry           DONE
     Container       DONE
 Add lists
-Indentations        Meh...
+Indentations        DONE
+Indentation type    DONE
+Error
+    Find
+        Entry       DONE
+        Container
 */
 
 /*
@@ -28,16 +33,16 @@ Bugs
 
 public class crow : IDisposable {
     private bool disposed = false;
-    public bool Indentation = true;
+    public bool IndentationType = true;
+    public string IndentationString = "    ";
     private System.ComponentModel.Component comp = new System.ComponentModel.Component();
     
     const string DelimContent = ":";
     const string DelimStruct = "'";
     const string DelimPath = ".";
-    const string PathIndent = "    ";
 
     const string ErrNotFound = DelimContent +"ERR_NOT_FOUND" + DelimContent;
-    //const string ErrContainer = DelimContent + "ERR_CONTAINER" + DelimContent;
+    const string ErrContainer = DelimContent + "ERR_CONTAINER" + DelimContent;
     //const string ErrListNull = DelimContent + "ERR_LIST_NULL" + DelimContent;
 
     static string Filepath = "";
@@ -169,10 +174,17 @@ public class crow : IDisposable {
     }
 
     public string Find(string EntryPath) {
-        string rVal = ErrNotFound;
+        string rVal;
         int rIndex = fGetPath(EntryPath);
 
-        rVal = rIndex == -1 ? ErrNotFound : fGetEntryVal(Contents[rIndex].ToString());
+        if(rIndex == -1) {
+            throw new System.ArgumentException("Path not found", "crow");
+        } else {
+            rVal = fGetEntryVal(Contents[rIndex].ToString());
+            if(rVal == "") {
+                throw new System.ArgumentException("Path is a container", "crow");
+            }
+        }
         return rVal;
     }
 
@@ -192,7 +204,7 @@ public class crow : IDisposable {
         
         if((Position = fGetPath(AppendPath)) != -1) {
             int IndentationLevel = (EntryPath.Length - EntryPath.Replace(".", "").Length);
-            string IntendationString = Indentation ? String.Concat(System.Linq.Enumerable.Repeat(PathIndent, IndentationLevel)) : "";
+            string IntendationString = IndentationType ? String.Concat(System.Linq.Enumerable.Repeat(IndentationString, IndentationLevel)) : "";
             Contents.Insert(Position+1, IntendationString + NewKey + DelimContent + " " + EntryVal);
             sWriteFile();
         }
@@ -223,8 +235,8 @@ public class crow : IDisposable {
         int Position = -1;
         
         if((Position = fGetPath(AppendPath)) != -1) {
-            int IndentationLevel = Indentation ? (EntryPath.Length - EntryPath.Replace(".", "").Length) : 0;
-            string IntendationString = Indentation ? String.Concat(System.Linq.Enumerable.Repeat(PathIndent, IndentationLevel)) : "";
+            int IndentationLevel = IndentationType ? (EntryPath.Length - EntryPath.Replace(".", "").Length) : 0;
+            string IntendationString = IndentationType ? String.Concat(System.Linq.Enumerable.Repeat(IndentationString, IndentationLevel)) : "";
             Contents.Insert(Position+1, IntendationString + NewKey + DelimContent);
             Contents.Insert(Position+2, IntendationString + DelimContent);
             sWriteFile();
@@ -242,6 +254,7 @@ public class crow : IDisposable {
     }
 
     public string TestingNew(string s) {
-        return fGetEntryVal(s);
+        int rIndex = fGetPath(s);
+        return (fGetEntryVal(Contents[rIndex].ToString()) == "").ToString();
     }
 }
