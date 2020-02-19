@@ -23,7 +23,10 @@ Indentation type    DONE
 Error
     Find
         Entry       DONE
-        Container
+        Container   DONE
+    Consolidate
+    Make const
+Refactor
 */
 
 /*
@@ -41,9 +44,21 @@ public class crow : IDisposable {
     const string DelimStruct = "'";
     const string DelimPath = ".";
 
-    const string ErrNotFound = DelimContent +"ERR_NOT_FOUND" + DelimContent;
-    const string ErrContainer = DelimContent + "ERR_CONTAINER" + DelimContent;
+    //const string ErrNotFound = DelimContent +"ERR_NOT_FOUND" + DelimContent;
+    //const string ErrContainer = DelimContent + "ERR_CONTAINER" + DelimContent;
     //const string ErrListNull = DelimContent + "ERR_LIST_NULL" + DelimContent;
+    /* ERROR MESSAGES
+    *   throw new System.ArgumentException("Path not found", "crow");
+    *   throw new System.ArgumentException("Path is a container", "crow");
+    */
+
+    /* Refactoring
+    *   Calc for ./depth of path used multiple times
+    *
+    *
+    *
+    *
+    */
 
     static string Filepath = "";
     static List<string> Contents = new List<string>();
@@ -214,8 +229,22 @@ public class crow : IDisposable {
 
     }
 
-    public void EntryInsert() {
+    public void EntryInsert(string EntryPath, string EntryVal) {
+        string AppendPath = (EntryPath.Length - EntryPath.Replace(".", "").Length) == 0 ? EntryPath : fGetPriorPath(EntryPath);
+        string NewKey = fGetLastAttr(EntryPath);
+        int Position = -1;
+        int InsertOffset = 0;
+        
+        if((Position = fGetPath(AppendPath)) != -1) {
+            InsertOffset = Contents.Count + 1;
+        } else {
+            InsertOffset = Position+1;
+        }
 
+        int IndentationLevel = (EntryPath.Length - EntryPath.Replace(".", "").Length);
+        string IntendationString = IndentationType ? String.Concat(System.Linq.Enumerable.Repeat(IndentationString, IndentationLevel)) : "";
+        Contents.Insert(InsertOffset, IntendationString + NewKey + DelimContent + " " + EntryVal);
+        sWriteFile();
     }
 
     public void EntryDel(string EntryPath) {

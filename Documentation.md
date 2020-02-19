@@ -2,8 +2,10 @@
 ## File format
 The file works as such:
 
-    - Entry keys and values are seprated by a `:`
+    - Entry keys and values are seprated by a ':'
     - Entries are separated by a new lines
+    - Containers start and end with ':'
+    - Null entries cannot exists
 
 ```
 ISO: AT
@@ -38,10 +40,10 @@ using(crow foo = new crow("filename.crow")) {
     //Output: 'Alps'
 
     string SearchVal = Find("Geography.Climate.Quaternary");
-    //Output: ':ERR_NOT_FOUND:'
+    //Throws unhandled exception 'Path not found'
 
     string SearchVal = Find("Geography.Climate");
-    //Output: ':ERR_CONTAINER:'
+    //Throws unhandled exception 'Path is a container'
 }
 ```
 
@@ -66,12 +68,14 @@ using(crow foo = new crow("filename.crow")) {
 ```
 
 ### Delete container
+This function will delete a container and its content whether or not it is empty.
+
 ```
 
 ```
 
 ## Indentation
-Indentations are enabled by default with each indent being a quadruple space.
+Indentations are enabled by default for human readability with each indent being a quadruple space. It is possible to disable them and they will not be written when adding new entries.
 
 ```
 using(crow foo = new crow("filename.crow")) {

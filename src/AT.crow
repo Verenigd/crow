@@ -1,4 +1,5 @@
-﻿ISO: AT
+﻿Language: German
+ISO: AT
 Capital: Wien
 Geography:
     Climate:
@@ -10,51 +11,4 @@ Geography:
     LargestPeak: Alps
     Continent: Europe
     Landlocked: true
-:
-Subdivision:
-    1:
-        Name: Burgenland
-        Type: Länder
-        Capital: Eisenstadt
-    :
-    2:
-        Name: Kärnten
-        Type: Länder
-        Capital: Klagenfurt
-    :
-    3:
-        Name: Niederösterreich
-        Type: Länder
-        Capital: Sank Pölten
-    :
-    4:
-        Name: Oberösterreich
-        Type: Länder
-        Capital: Linz
-    :
-    5:
-        Name: Salzburg
-        Type: Länder
-        Capital: Salzburg
-    :
-    6:
-        Name: Steiermark
-        Type: Länder
-        Capital: Graz
-    :
-    7:
-        Name: Tirol
-        Type: Länder
-        Capital: Innsburck
-    :
-    8:
-        Name Vorarlberg
-        Type: Länder
-        Capital: Bregenz
-    :
-    9:
-        Name: Wien
-        Type: Länder
-        Capital: Wien
-    :
 :

@@ -4,46 +4,24 @@ static class test {
     static void Main(string[] args) {
         using(crow f = new crow("AT.crow")) {
             Chronos t = new Chronos();
-            if(args[0] == "f") {
+            if(args[0] == "f") { //Find
                 string s = "";
-                //t.Start();
-                //try {
                 s = f.Find(args[1]);
-                //} catch {
-                //}
-                //t.Stop();
                 Console.WriteLine("'" + s + "'");
-                //Console.WriteLine(t.GetMilliseconds());
-            } else if(args[0] == "ue") {
-                //t.Start();
+            } else if(args[0] == "ue") { //Update entry
                 f.Update(args[1],args[2]);
-                //t.Stop();
-                //Console.WriteLine(t.GetMilliseconds());
-            } else if(args[0] == "ae") {
-                //t.Start();
+            } else if(args[0] == "ae") { //Add entry (old)
                 f.AddEntry(args[1], args[2]);
-                //t.Stop();
-                //Console.WriteLine(t.GetMilliseconds());
-            } else if(args[0] == "ac") {
-                //t.Start();
+            } else if(args[0] == "ei") { //Entry insert
+                f.EntryInsert(args[1], args[2]);
+            } else if(args[0] == "ac") { //Add container
                 f.AddContainer(args[1]);
-                //t.Stop();
-                //Console.WriteLine(t.GetMilliseconds());
-            } else if(args[0] == "de") {
-                //t.Start();
+            } else if(args[0] == "de") { //Delete entry
                 f.EntryDel(args[1]);
-                //t.Stop();
-                //Console.WriteLine(t.GetMilliseconds());
-            } else if(args[0] == "dc") {
-                //t.Start();
+            } else if(args[0] == "dc") { //Delete container
                 f.DelContainer(args[1]);
-                //t.Stop();
-                //Console.WriteLine(t.GetMilliseconds());
-            } else if(args[0] == "t") {
-                //t.Start();
+            } else if(args[0] == "t") { //Testing
                 Console.WriteLine(f.TestingNew(args[1]));
-                //t.Stop();
-                //Console.WriteLine(t.GetMilliseconds());
             }
         }
     }
