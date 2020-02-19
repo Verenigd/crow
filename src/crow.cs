@@ -41,12 +41,8 @@ public class crow : IDisposable {
     private System.ComponentModel.Component comp = new System.ComponentModel.Component();
     
     const string DelimContent = ":";
-    const string DelimStruct = "'";
     const string DelimPath = ".";
 
-    //const string ErrNotFound = DelimContent +"ERR_NOT_FOUND" + DelimContent;
-    //const string ErrContainer = DelimContent + "ERR_CONTAINER" + DelimContent;
-    //const string ErrListNull = DelimContent + "ERR_LIST_NULL" + DelimContent;
     /* ERROR MESSAGES
     *   throw new System.ArgumentException("Path not found", "crow");
     *   throw new System.ArgumentException("Path is a container", "crow");
@@ -54,8 +50,8 @@ public class crow : IDisposable {
 
     /* Refactoring
     *   Calc for ./depth of path used multiple times
-    *
-    *
+    *   Combine EntryAdd + EntryInsert as single function with append, insert option
+    *   Error messages
     *
     *
     */
@@ -212,6 +208,7 @@ public class crow : IDisposable {
         sWriteFile();
     }
 
+    /* Replaced by EntryAdd() and EntryInsert()
     public void AddEntry(string EntryPath, string EntryVal) {
         string AppendPath = fGetPriorPath(EntryPath);
         string NewKey = fGetLastAttr(EntryPath);
@@ -224,20 +221,27 @@ public class crow : IDisposable {
             sWriteFile();
         }
     }
+    */
 
-    public void EntryStack() {
+    public void EntryAdd(string EntryPath, string EntryVal) {
+        string AppendPath = (EntryPath.Length - EntryPath.Replace(".", "").Length) == 0 ? EntryPath : fGetPriorPath(EntryPath);
+        string NewKey = fGetLastAttr(EntryPath);
 
+        int IndentationLevel = (EntryPath.Length - EntryPath.Replace(".", "").Length);
+        string IntendationString = IndentationType ? String.Concat(System.Linq.Enumerable.Repeat(IndentationString, IndentationLevel)) : "";
+        Contents.Add(IntendationString + NewKey + DelimContent + " " + EntryVal);
+        sWriteFile();
     }
 
     public void EntryInsert(string EntryPath, string EntryVal) {
         string AppendPath = (EntryPath.Length - EntryPath.Replace(".", "").Length) == 0 ? EntryPath : fGetPriorPath(EntryPath);
-        string NewKey = fGetLastAttr(EntryPath);
+        Console.WriteLine(AppendPath);
+        string NewKey = (EntryPath.Length - EntryPath.Replace(".", "").Length) == 0 ? EntryPath : fGetLastAttr(EntryPath);
         int Position = -1;
         int InsertOffset = 0;
         
         if((Position = fGetPath(AppendPath)) != -1) {
-            InsertOffset = Contents.Count + 1;
-        } else {
+            Console.WriteLine(true);
             InsertOffset = Position+1;
         }
 
@@ -283,7 +287,8 @@ public class crow : IDisposable {
     }
 
     public string TestingNew(string s) {
-        int rIndex = fGetPath(s);
-        return (fGetEntryVal(Contents[rIndex].ToString()) == "").ToString();
+        Console.WriteLine(fContainerEnd(s));
+        Console.WriteLine(fGetPath(s));
+        return "end";
     }
 }

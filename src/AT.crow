@@ -1,5 +1,4 @@
-﻿Language: German
-ISO: AT
+﻿ISO: AT
 Capital: Wien
 Geography:
     Climate:
@@ -7,6 +6,7 @@ Geography:
         Primary: Dfe
         Secondary: Dfc
         Tertiary: ET
+        Winter: Harsh
     :
     LargestPeak: Alps
     Continent: Europe
