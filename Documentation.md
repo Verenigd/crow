@@ -7,6 +7,8 @@ The file works as such:
     - Containers start and end with ':'
     - Null entries cannot exists
 
+The documentation will assume the file being invoked looks like this.
+
 ```
 ISO: AT
 Capital: Wien
@@ -32,17 +34,17 @@ using(crow foo = new crow("filename.crow")) {
 ```
 
 ### Find
-This function will return the value associated with the 
+This function will return the entry value associated with the path requested.
 
 ```
 using(crow foo = new crow("filename.crow")) {
-    string SearchVal = Find("Geography.LargestPeak");
+    string SearchVal = foo.Find("Geography.LargestPeak");
     //Output: 'Alps'
 
-    string SearchVal = Find("Geography.Climate.Quaternary");
+    string SearchVal = foo.Find("Geography.Climate.Quaternary");
     //Throws unhandled exception 'Path not found'
 
-    string SearchVal = Find("Geography.Climate");
+    string SearchVal = foo.Find("Geography.Climate");
     //Throws unhandled exception 'Path is a container'
 }
 ```
@@ -53,8 +55,16 @@ using(crow foo = new crow("filename.crow")) {
 ```
 
 ### Add and insert entry
-```
+Entries can be inserted at the begining of the list or container or added at the end of the list or container using the following functions. By default the `EntryAdd()` function will insert, not append.
 
+```
+using(crow foo = new crow("filename.crow")) {
+    foo.EntryAdd("Language", "German");
+    //Inserts new entry with key "Language" and value "German" at the first position available.
+
+    foo.EntryAdd("Geography.Climate.Winter", "Harsh", 1);
+    //Appends new entry with key "Winter" and value "Harsh" at the end of the Climate container.
+}
 ```
 
 ### Delete entry

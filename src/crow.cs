@@ -34,6 +34,21 @@ Bugs
     Delete entry also deletes container start   DONE
 */
 
+/* ERROR MESSAGES
+*   throw new System.ArgumentException("Path not found", "crow");
+*   throw new System.ArgumentException("Path is a container", "crow");
+*/
+
+/* Refactoring
+*   Calc for ./depth of path used multiple times
+*   Combine EntryAdd + EntryInsert as single function with append, insert option
+*   Error messages
+*   Naming convention
+*       Container
+*       Entry key
+*       Entry value
+*/
+
 public class crow : IDisposable {
     private bool disposed = false;
     public bool IndentationType = true;
@@ -42,19 +57,6 @@ public class crow : IDisposable {
     
     const string DelimContent = ":";
     const string DelimPath = ".";
-
-    /* ERROR MESSAGES
-    *   throw new System.ArgumentException("Path not found", "crow");
-    *   throw new System.ArgumentException("Path is a container", "crow");
-    */
-
-    /* Refactoring
-    *   Calc for ./depth of path used multiple times
-    *   Combine EntryAdd + EntryInsert as single function with append, insert option
-    *   Error messages
-    *
-    *
-    */
 
     static string Filepath = "";
     static List<string> Contents = new List<string>();
@@ -208,46 +210,29 @@ public class crow : IDisposable {
         sWriteFile();
     }
 
-    /* Replaced by EntryAdd() and EntryInsert()
-    public void AddEntry(string EntryPath, string EntryVal) {
-        string AppendPath = fGetPriorPath(EntryPath);
-        string NewKey = fGetLastAttr(EntryPath);
-        int Position = -1;
-        
-        if((Position = fGetPath(AppendPath)) != -1) {
-            int IndentationLevel = (EntryPath.Length - EntryPath.Replace(".", "").Length);
-            string IntendationString = IndentationType ? String.Concat(System.Linq.Enumerable.Repeat(IndentationString, IndentationLevel)) : "";
-            Contents.Insert(Position+1, IntendationString + NewKey + DelimContent + " " + EntryVal);
-            sWriteFile();
-        }
-    }
-    */
-
-    public void EntryAdd(string EntryPath, string EntryVal) {
-        string AppendPath = (EntryPath.Length - EntryPath.Replace(".", "").Length) == 0 ? EntryPath : fGetPriorPath(EntryPath);
-        string NewKey = fGetLastAttr(EntryPath);
-
-        int IndentationLevel = (EntryPath.Length - EntryPath.Replace(".", "").Length);
-        string IntendationString = IndentationType ? String.Concat(System.Linq.Enumerable.Repeat(IndentationString, IndentationLevel)) : "";
-        Contents.Add(IntendationString + NewKey + DelimContent + " " + EntryVal);
-        sWriteFile();
-    }
-
-    public void EntryInsert(string EntryPath, string EntryVal) {
-        string AppendPath = (EntryPath.Length - EntryPath.Replace(".", "").Length) == 0 ? EntryPath : fGetPriorPath(EntryPath);
-        Console.WriteLine(AppendPath);
-        string NewKey = (EntryPath.Length - EntryPath.Replace(".", "").Length) == 0 ? EntryPath : fGetLastAttr(EntryPath);
+    public void EntryAdd(string EntryPath, string EntryVal, int AddMethod = 0) {
+        int DepthLevel = (EntryPath.Length - EntryPath.Replace(".", "").Length);
+        string AppendPath = DepthLevel == 0 ? EntryPath : fGetPriorPath(EntryPath);
+        string NewKey = DepthLevel == 0 ? EntryPath : fGetLastAttr(EntryPath);
         int Position = -1;
         int InsertOffset = 0;
-        
-        if((Position = fGetPath(AppendPath)) != -1) {
-            Console.WriteLine(true);
-            InsertOffset = Position+1;
-        }
 
-        int IndentationLevel = (EntryPath.Length - EntryPath.Replace(".", "").Length);
-        string IntendationString = IndentationType ? String.Concat(System.Linq.Enumerable.Repeat(IndentationString, IndentationLevel)) : "";
-        Contents.Insert(InsertOffset, IntendationString + NewKey + DelimContent + " " + EntryVal);
+        string Intendations = IndentationType ? String.Concat(System.Linq.Enumerable.Repeat(IndentationString, DepthLevel)) : "";
+        if(AddMethod == 0) {
+            if((Position = fGetPath(AppendPath)) != -1) {
+                InsertOffset = Position+1;
+            }
+            Contents.Insert(InsertOffset, Intendations + NewKey + DelimContent + " " + EntryVal);
+        } else {
+            if(DepthLevel != 0) {
+                if((Position = fContainerEnd(AppendPath)) != -1) {
+                    InsertOffset = Position;
+                }
+                Contents.Insert(InsertOffset ,Intendations + NewKey + DelimContent + " " + EntryVal);
+            } else {
+                Contents.Add(Intendations + NewKey + DelimContent + " " + EntryVal);
+            }
+        }
         sWriteFile();
     }
 

@@ -2,7 +2,6 @@
 Capital: Wien
 Geography:
     Climate:
-        Winter: Harsh
         Primary: Dfe
         Secondary: Dfc
         Tertiary: ET
@@ -12,3 +11,4 @@ Geography:
     Continent: Europe
     Landlocked: true
 :
+Language: German
